@@ -39,13 +39,9 @@ int Train::getLength() {
     int length = 0;
     Car* current = first;
     do {
-        if (current->light) {
-            current->light = false;
-            countOp++; // за выключение лампочки
-        }
         length++;
         current = current->next;
-        countOp++; // за переход в следующий вагон
+        countOp++;
     } while (current != first);
     return length;
 }
