@@ -5,7 +5,7 @@
 class Train {
  private:
   struct Car {
-    bool light; 
+    bool light;
     Car *next;
     Car *prev;
   };
@@ -13,8 +13,8 @@ class Train {
   Car *first; // точка входа в поезд (первый вагон)
  public:
   Train();
-  void addCar(bool light); // добавить вагон с начальным состоянием лампочки
+  void addCar(bool light);
   int getLength();          // вычислить длину поезда
-  int getOpCount();         // вернуть число переходов (из вагона в вагон)        
+  int getOpCount();          
 };
 #endif  // INCLUDE_TRAIN_H_
