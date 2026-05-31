@@ -33,23 +33,18 @@ void Train::addCar(bool light) {
 int Train::getLength() {
     if (!first) return 0;
     countOp = 0;
-    Car* current = first;
-    int length = 0;
-    while (current->light) {
-        current->light = false;
-        countOp++;  // операция выключения
-        current = current->next;
-        countOp++;  // операция перехода
+    // Сначала выключаем свет ВСЕГДА в первом вагоне
+    first->light = false;
+    countOp++;
+    Car* current = first->next;
+    countOp++;
+    int length = 1;
+    while (current != first) {
         length++;
-    }
-    int markerPos = 0;
-    current = first;
-    while (current->light) {
         current = current->next;
         countOp++;
-        markerPos++;
     }
-    return markerPos;
+    return length;
 }
 
 int Train::getOpCount() {
