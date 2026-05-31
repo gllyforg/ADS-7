@@ -29,30 +29,42 @@ void Train::addCar(bool light) {
 }
 
 int Train::getLength() {
-  if (!first) return 0;
-  first->light = true;
-  Car* current = first;
-  int steps = 0;
-  while (true) {
-    current = current->next;
-    steps++;
-    countOp++;
-    if (current->light) {
-      current->light = false;
-      for (int i = 0; i < steps; ++i) {
-        current = current->prev;
+    if (!first) return 0;
+    int length = 0;
+    Car* current = first;
+    do {
+        current->light = false;
         countOp++;
-      }
-      if (!first->light) {
-        return steps;
-      }
-      for (int i = 0; i < steps; ++i) {
+        length++;
         current = current->next;
         countOp++;
-      }
-      steps = 0;
+    } while (current != first);
+    // Алгоритм определения длины с лампочками
+    first->light = true;
+    current = first;
+    int steps = 0;
+    while (true) {
+        current = current->next;
+        steps++;
+        countOp++;
+        if (current->light) {
+            current->light = false;
+            countOp++;
+            for (int i = 0; i < steps; i++) {
+                current = current->prev;
+                countOp++;
+            }
+            if (!first->light) {
+                // Убеждаемся, что длина совпадает с подсчитанной
+                return length;
+            }
+            for (int i = 0; i < steps; i++) {
+                current = current->next;
+                countOp++;
+            }
+            steps = 0;
+        }
     }
-  }
 }
 
 int Train::getOpCount() const {
