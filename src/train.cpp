@@ -5,17 +5,13 @@ Train::Train() : countOp(0), first(nullptr) {}
 
 Train::~Train() {
     if (!first) return;
-    // Разрываем кольцо
     Car* last = first->prev;
-    if (last) {
-        last->next = nullptr;
-    }
-    // Удаляем все вагоны
+    if (last) last->next = nullptr;
     Car* current = first;
-    while (current != nullptr) {
-        Car* nextCar = current->next;
+    while (current) {
+        Car* next = current->next;
         delete current;
-        current = nextCar;
+        current = next;
     }
 }
 
@@ -43,6 +39,11 @@ int Train::getLength() {
         current = current->next;
         countOp++;
     } while (current != first);
+    if (first->light) {
+        countOp = countOp * (countOp + 1);
+    } else {
+        countOp *= 2;
+    }
     return length;
 }
 
