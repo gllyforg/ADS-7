@@ -34,40 +34,22 @@ int Train::getLength() {
     if (!first) return 0;
     countOp = 0;
     Car* current = first;
-    // Turn OFF current light to create a marker
-    if (current->light) {
+    int length = 0;
+    while (current->light) {
         current->light = false;
-    }
-    int length = 1;
-    int step = 1;
-    while (true) {
-        for (int i = 0; i < step; i++) {
-            current = current->next;
-            countOp++;
-        }
-        if (current->light) {
-            current->light = false;
-            countOp++;
-            for (int i = 0; i < step; i++) {
-                current = current->prev;
-                countOp++;
-            }
-            step = 1;
-        } else {
-            current->light = true;
-            countOp++;
-            break;
-        }
-    }
-    // Count all cars
-    length = 0;
-    current = first;
-    do {
+        countOp++;  // операция выключения
+        current = current->next;
+        countOp++;  // операция перехода
         length++;
+    }
+    int markerPos = 0;
+    current = first;
+    while (current->light) {
         current = current->next;
         countOp++;
-    } while (current != first);
-    return length;
+        markerPos++;
+    }
+    return markerPos;
 }
 
 int Train::getOpCount() {
