@@ -18,8 +18,6 @@ int runExperiment(int n, const std::vector<bool>& lights) {
 }
 
 int main() {
-  Train train;
-  int count = 60; // кол-во вагонов
     std::vector<int> sizes = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
                                120, 140, 160, 180, 200, 250, 300, 350,
                                400, 450, 500};
@@ -38,14 +36,8 @@ int main() {
         int opsOff = runExperiment(n, allOff);
         int opsOn = runExperiment(n, allOn);
         int opsRandom = runExperiment(n, random);
-
-  while (count--)
-    train.addCar(false);
         file << n << "," << opsOff << "," << opsOn << "," << opsRandom << "\n";
     }
-  std::cout << train.getLength() << std::endl;
-  std::cout << train.getOpCount() << std::endl;
-  return 0;
     file.close();
     return 0;
 }
