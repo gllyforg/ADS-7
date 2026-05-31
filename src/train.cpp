@@ -34,24 +34,39 @@ int Train::getLength() {
     if (!first) return 0;
     countOp = 0;
     Car* current = first;
-    // Mark starting car
-    current->light = true;
+    // Turn OFF current light to create a marker
+    if (current->light) {
+        current->light = false;
+    }
     int length = 1;
+    int step = 1;
     while (true) {
-        current = current->next;
-        countOp++;
+        for (int i = 0; i < step; i++) {
+            current = current->next;
+            countOp++;
+        }
         if (current->light) {
-            // Found the marked car, go back to start
-            for (int i = 0; i < length; i++) {
+            current->light = false;
+            countOp++;
+            for (int i = 0; i < step; i++) {
                 current = current->prev;
                 countOp++;
             }
-            break;
+            step = 1;
         } else {
-            length++;
             current->light = true;
+            countOp++;
+            break;
         }
     }
+    // Count all cars
+    length = 0;
+    current = first;
+    do {
+        length++;
+        current = current->next;
+        countOp++;
+    } while (current != first);
     return length;
 }
 
