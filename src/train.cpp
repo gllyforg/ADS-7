@@ -2,8 +2,6 @@
 #include "train.h"
 #include <iostream>
 
-#include "train.h"
-
 Train::Train() : countOp(0), first(nullptr) {}
 
 Train::~Train() {
@@ -39,38 +37,24 @@ int Train::getLength() {
     if (!first) return 0;
     countOp = 0;
     Car* current = first;
-    current->light = false;
+    current->light = true;
     countOp++;
     int length = 1;
-    int step = 1;
     while (true) {
-        for (int i = 0; i < step; i++) {
-            current = current->next;
+        current = current->next;
+        countOp++;
+        if (!current->light) {
+            length++;
+            current->light = true;
             countOp++;
-        }
-        if (current->light) {
-            current->light = false;
-            countOp++;
-            for (int i = 0; i < step; i++) {
+        } else {
+            for (int i = 0; i < length; i++) {
                 current = current->prev;
                 countOp++;
             }
-            step = 1;
-        } else {
-            // Встретили выключенный свет - включаем и выходим
-            current->light = true;
-            countOp++;
             break;
         }
     }
-    length = 0;
-    current = first;
-    do {
-        length++;
-        current = current->next;
-        countOp++;
-    } while (current != first);
-    
     return length;
 }
 
