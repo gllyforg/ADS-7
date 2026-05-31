@@ -20,7 +20,6 @@ void Train::addCar(bool light) {
     newCar->light = light;
     newCar->next = nullptr;
     newCar->prev = nullptr;
-    
     if (!first) {
         first = newCar;
         first->next = first;
@@ -36,17 +35,13 @@ void Train::addCar(bool light) {
 
 int Train::getLength() {
     if (!first) return 0;
-    
     countOp = 0;
     Car* current = first;
-    
     // Step 1: Turn off current light (if on)
     if (current->light) {
         current->light = false;
     }
-    
     int step = 1;
-    
     // Step 2: Find the end marker
     while (true) {
         // Move forward 'step' cars
@@ -54,12 +49,10 @@ int Train::getLength() {
             current = current->next;
             countOp++;
         }
-        
         if (current->light) {
             // Found a lit car - turn it off and go back
             current->light = false;
             countOp++;
-            
             for (int i = 0; i < step; i++) {
                 current = current->prev;
                 countOp++;
@@ -72,7 +65,6 @@ int Train::getLength() {
             break;
         }
     }
-    
     // Step 3: Count all cars
     int length = 0;
     current = first;
@@ -81,7 +73,6 @@ int Train::getLength() {
         current = current->next;
         countOp++;
     } while (current != first);
-    
     return length;
 }
 
