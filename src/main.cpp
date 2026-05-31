@@ -14,25 +14,25 @@ int main() {
         Train train;
         for (int i = 0; i < n; i++) train.addCar(false);
         train.getLength();
-        std:cout << n << "," << train.getOpCount() << std:endl;
+        std::cout << n << "," << train.getOpCount() << std::endl;
     }
     // Experiment 2: all lights ON
-    std:cout << "\nALL ON:\n";
+    std::cout << "\nALL ON:\n";
     for (int n = 10; n <= MAX_N; n += STEP) {
         Train train;
         for (int i = 0; i < n; i++) train.addCar(true);
         train.getLength();
-        std:cout << n << "," << train.getOpCount() << std:endl;
+        std::cout << n << "," << train.getOpCount() << std::endl;
     }
     // Experiment 3: random lights
-    std:cout << "\nRANDOM:\n";
-    mt19937 gen(42);
-    uniform_int_distribution<> dis(0, 1);
+    std::cout << "\nRANDOM:\n";
+    std::mt19937 gen(42);
+    std::uniform_int_distribution<> dis(0, 1);
     for (int n = 10; n <= MAX_N; n += STEP) {
         Train train;
         for (int i = 0; i < n; i++) train.addCar(dis(gen));
         train.getLength();
-        std:cout << n << "," << train.getOpCount() << std:endl;
+        std::cout << n << "," << train.getOpCount() << std::endl;
     }
     return 0;
 }
