@@ -38,11 +38,11 @@ int Train::getLength() {
         length++;
         current = current->next;
         countOp++;
-    } while (current != first);
+    } while (current != first);   
     if (first->light) {
-        countOp = countOp * (countOp + 1);
+        countOp = length * (length + 1);
     } else {
-        countOp *= 2;
+        countOp = length * 2;
     }
     return length;
 }
