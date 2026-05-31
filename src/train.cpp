@@ -1,52 +1,51 @@
-// Copyright 2021 NNTU-CS
 #include "train.h"
 
-Train::Train() : countOp(0), first(nullptr) {}
+Train::Train() : first(nullptr), countOp(0) {}
 
-Train::~Train() {
-    if (!first) return;
-    Car* last = first->prev;
-    if (last) last->next = nullptr;
-    Car* current = first;
-    while (current) {
-        Car* next = current->next;
-        delete current;
-        current = next;
-    }
+int Train::getOpCount() {
+    return countOp;
 }
 
 void Train::addCar(bool light) {
-    Car* newCar = new Car{light, nullptr, nullptr};
-    if (!first) {
+    Car *newCar = new Car;
+    newCar->light = light;
+
+    if (first == nullptr) {
         first = newCar;
-        first->next = first;
-        first->prev = first;
-    } else {
-        Car* last = first->prev;
-        last->next = newCar;
-        newCar->prev = last;
-        newCar->next = first;
-        first->prev = newCar;
+        newCar->next = newCar;
+        newCar->prev = newCar;
+        return;
     }
+
+    Car *last = first->prev;
+    newCar->next = first;
+    newCar->prev = last;
+    last->next = newCar;
+    first->prev = newCar;
 }
 
 int Train::getLength() {
-    if (!first) return 0;
-    int length = 0;
-    Car* current = first;
-    do {
-        length++;
-        current = current->next;
-        countOp++;
-    } while (current != first);   
-    if (first->light) {
-        countOp = length * (length + 1);
-    } else {
-        countOp = length * 2;
-    }
-    return length;
-}
+    Car *current = first;
+    current->light = true;
 
-int Train::getOpCount() const {
-    return countOp;
+    while (true) {
+        int steps = 0;
+
+        do {
+            current = current->next;
+            countOp++;
+            steps++;
+        } while (!current->light);
+
+        current->light = false;
+
+        for (int i = 0; i < steps; i++) {
+            current = current->prev;
+            countOp++;
+        }
+
+        if (!current->light) {
+            return steps;
+        }
+    }
 }
