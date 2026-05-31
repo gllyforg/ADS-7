@@ -1,6 +1,5 @@
 // Copyright 2021 NNTU-CS
 #include "train.h"
-#include <iostream>
 
 Train::Train() : countOp(0), first(nullptr) {}
 
@@ -18,8 +17,6 @@ Train::~Train() {
 void Train::addCar(bool light) {
     Car* newCar = new Car;
     newCar->light = light;
-    newCar->next = nullptr;
-    newCar->prev = nullptr;
     if (!first) {
         first = newCar;
         first->next = first;
@@ -37,22 +34,22 @@ int Train::getLength() {
     if (!first) return 0;
     countOp = 0;
     Car* current = first;
+    // Mark starting car
     current->light = true;
-    countOp++;
     int length = 1;
     while (true) {
         current = current->next;
         countOp++;
-        if (!current->light) {
-            length++;
-            current->light = true;
-            countOp++;
-        } else {
+        if (current->light) {
+            // Found the marked car, go back to start
             for (int i = 0; i < length; i++) {
                 current = current->prev;
                 countOp++;
             }
             break;
+        } else {
+            length++;
+            current->light = true;
         }
     }
     return length;
